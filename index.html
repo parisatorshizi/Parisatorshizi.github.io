@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parisa Ghanad Torshizi</title>
+<meta name="description" content="Parisa Ghanad Torshizi — PhD candidate at Northeastern University working on multimodal behavior generation and embodied conversational agents.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Karla:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════════════
+   CHRONOPHOTOGRAPH
+   After Marey's motion studies — the direct ancestor of
+   motion capture, and an art object in its own right.
+   Palette: plaster ground, payne's grey, phthalo, quinacridone.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  
+  --ground:   #E4E1E6;
+  --ground-2: #D8D4DC;
+  --ground-3: #C6C1CC;
+  --bone:     #EFECF1;
+  --ink:      #221F28;
+  --payne:    #4E5266;
+  --phthalo:  #0E7268;
+  --quin:     #A83566;
+
+  --display: "Fraunces", Georgia, serif;
+  --body:    "Karla", system-ui, sans-serif;
+  --mono:    "Space Mono", ui-monospace, monospace;
+
+  --measure: 60ch;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --hair: 1px solid var(--ground-3);
+
+  /* motion-trail offsets — reduced on small screens below */
+  --o1: -19px; --oy1:  5px;
+  --o2: -38px; --oy2: 10px;
+  --h1: -23px; --hy1:  7px;
+  --h2: -46px; --hy2: 13px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+
+body{
+  margin:0;
+  overflow-x:hidden;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:1.0625rem;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+
+a{ color:var(--phthalo); text-decoration-thickness:1px; text-underline-offset:.18em; }
+a:hover{ color:var(--quin); }
+
+:focus-visible{ outline:2px solid var(--quin); outline-offset:3px; }
+
+.skip{ position:absolute; left:-9999px; background:var(--ink); color:var(--bone); padding:.6rem 1rem; z-index:20; }
+.skip:focus{ left:var(--gutter); top:.75rem; }
+
+.tag{
+  font-family:var(--mono);
+  font-size:.6875rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--payne);
+}
+
+.shell{ max-width:1140px; margin:0 auto; padding:0 var(--gutter); }
+
+/* ── masthead ────────────────────────────────────────────── */
+.masthead{ padding:clamp(2rem,5vw,3.25rem) 0 0; }
+.wordmark{
+  font-family:var(--display);
+  font-variation-settings:"SOFT" 45,"WONK" 1,"opsz" 120;
+  font-weight:500;
+  font-size:clamp(2.1rem,6vw,3.4rem);
+  line-height:.98;
+  letter-spacing:-.015em;
+  margin:0;
+}
+.wordmark a{ color:inherit; text-decoration:none; }
+.masthead .tag{ display:block; margin-top:.75rem; }
+
+.nav{
+  margin-top:clamp(1.5rem,4vw,2.4rem);
+  border-top:var(--hair);
+  display:flex;
+  flex-wrap:wrap;
+  gap:0 clamp(.85rem,3.5vw,2.5rem);
+}
+@media (max-width:640px){
+  .nav{ gap:0 1rem; }
+  .nav a{ padding:.7rem 0 .65rem; font-size:.6875rem; letter-spacing:.09em; }
+}
+.nav a{
+  position:relative;
+  display:block;
+  padding:.85rem 0 .8rem;
+  font-family:var(--mono);
+  font-size:.75rem;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--ink);
+  text-decoration:none;
+}
+.nav a::after{
+  content:"";
+  position:absolute; left:0; right:0; top:-1px; height:2px;
+  background:var(--quin);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .5s cubic-bezier(.2,.7,.25,1);
+}
+.nav a:hover::after,
+.nav a[aria-current="page"]::after{ transform:scaleX(1); }
+.nav a[aria-current="page"]{ color:var(--quin); }
+
+/* ── views ───────────────────────────────────────────────── */
+main{ padding-bottom:5rem; }
+.view{ display:none; padding-top:clamp(2.25rem,6vw,3.5rem); }
+.view.is-active{ display:block; animation:rise .5s ease-out both; }
+@keyframes rise{ from{ opacity:0; transform:translateY(10px); } }
+
+.view-head{
+  display:flex; align-items:baseline; gap:1rem;
+  border-bottom:var(--hair);
+  padding-bottom:.9rem;
+  margin-bottom:clamp(1.75rem,4vw,2.75rem);
+}
+.view-head h2{
+  font-family:var(--display);
+  font-variation-settings:"SOFT" 45,"WONK" 1,"opsz" 90;
+  font-weight:400;
+  font-size:clamp(1.55rem,3.4vw,2.25rem);
+  line-height:1.05;
+  margin:0;
+}
+.view-head .count{
+  font-family:var(--mono); font-size:.6875rem; letter-spacing:.12em;
+  color:var(--payne); margin-left:auto; white-space:nowrap;
+}
+
+/* ══ SIGNATURE: two exposures ══════════════════════════════
+   Two cards of the same person — one still, one moving —
+   stacked with the back one offset and tinted. Click swaps
+   which is in front. Same chronophotographic language, but
+   now the two exposures are two different kinds of record. */
+.chrono{
+  position:relative;
+  aspect-ratio:4/5;
+  isolation:isolate;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.chrono:focus-visible{ outline:2px solid var(--quin); outline-offset:6px; }
+
+.card{
+  position:absolute; inset:0;
+  border:1px solid var(--ink);
+  overflow:hidden;
+  isolation:isolate;
+  transition:transform .65s cubic-bezier(.2,.75,.25,1),
+             opacity   .65s cubic-bezier(.2,.75,.25,1);
+}
+.card img,
+.card video{
+  display:block; width:100%; height:100%;
+  object-fit:cover;
+}
+/* colour cast on whichever card is behind */
+.card::after{
+  content:""; position:absolute; inset:0;
+  mix-blend-mode:color;
+  opacity:0;
+  transition:opacity .65s ease;
+  pointer-events:none;
+}
+.card.a::after{ background:var(--quin); }
+.card.b::after{ background:var(--phthalo); }
+
+/* front card */
+.card[data-pos="front"]{
+  z-index:2;
+  transform:none;
+  opacity:1;
+  animation:settle 1.1s cubic-bezier(.2,.75,.25,1) both;
+}
+/* back card — offset, faded, tinted */
+.card[data-pos="back"]{
+  z-index:1;
+  transform:translate(var(--o2),var(--oy2)) scale(.985);
+  opacity:.42;
+}
+.card[data-pos="back"]::after{ opacity:1; }
+
+@keyframes settle{ from{ opacity:0; } to{ opacity:1; } }
+
+/* the back card leans out a little further on hover */
+.chrono:hover .card[data-pos="back"]{
+  transform:translate(var(--h2),var(--hy2)) scale(.982);
+}
+
+/* which exposure is in front */
+.shot-dots{ display:flex; gap:.4rem; align-items:center; }
+.shot-dots i{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--ground-3);
+  transition:background .3s;
+}
+.shot-dots i.on{ background:var(--quin); }
+
+.plate-caption{
+  margin-top:.8rem; padding-top:.6rem;
+  border-top:1px solid var(--ground-3);
+  display:flex; justify-content:space-between; gap:1rem;
+}
+.plate-caption span:last-child{ color:var(--ground-3); }
+
+/* ── home ────────────────────────────────────────────────── */
+.intro{
+  display:grid;
+  grid-template-columns:minmax(0,330px) minmax(0,1fr);
+  gap:clamp(1.75rem,5vw,4.5rem);
+  align-items:start;
+}
+@media (max-width:780px){
+  .intro{ grid-template-columns:1fr; }
+  /* trail scaled down so it stays inside the gutter */
+  :root{ --o1:-11px; --oy1:3px; --o2:-22px; --oy2:6px;
+         --h1:-13px; --hy1:4px; --h2:-26px; --hy2:8px; }
+  /* portrait shouldn't eat the whole first screen */
+  .intro > figure{ max-width:300px; margin-inline:auto !important; padding-left:24px; }
+  .view-head{ flex-wrap:wrap; }
+  .view-head .count{ white-space:normal; margin-left:0; flex-basis:100%; }
+}
+
+/* touch: no hover, so give the small link chips a real tap target */
+@media (hover:none){
+  .links a{ padding:.42rem .68rem; }
+  .contact{ gap:.75rem 1.5rem; }
+}
+
+.lede{
+  font-family:var(--display);
+  font-variation-settings:"SOFT" 55,"WONK" 1,"opsz" 60;
+  font-weight:400;
+  font-size:clamp(1.4rem,2.7vw,1.85rem);
+  line-height:1.28;
+  margin:0 0 1.5rem;
+  max-width:24ch;
+  text-wrap:balance;
+}
+.bio p{ max-width:var(--measure); margin:0 0 1.05rem; }
+.bio p:last-of-type{ margin-bottom:0; }
+
+.contact{
+  list-style:none; margin:2rem 0 0; padding:1.1rem 0 0;
+  border-top:var(--hair);
+  display:flex; flex-wrap:wrap; gap:.5rem 1.5rem;
+  font-family:var(--mono); font-size:.8125rem;
+}
+
+/* ── entry lists: a tracked path down the page ───────────── */
+.stream{ position:relative; }
+.entry{
+  position:relative;
+  display:grid;
+  grid-template-columns:6.5rem minmax(0,1fr);
+  gap:0 clamp(1rem,3vw,2rem);
+  padding:1.2rem 0 1.2rem 1.5rem;
+  border-bottom:1px solid var(--ground-2);
+}
+.entry::before{
+  content:""; position:absolute; left:0; top:1.65rem;
+  width:9px; height:9px; border-radius:50%;
+  background:var(--ground); border:2px solid var(--payne);
+  z-index:1;
+  transition:background .25s, border-color .25s, transform .25s;
+}
+.entry::after{
+  content:""; position:absolute; left:4px; top:1.65rem;
+  bottom:-1.25rem; width:1px; background:var(--ground-3);
+}
+.entry:last-child::after{ display:none; }
+.entry:hover::before{ background:var(--quin); border-color:var(--quin); transform:scale(1.25); }
+
+@media (max-width:640px){
+  .entry{ grid-template-columns:1fr; gap:.35rem; }
+}
+
+.entry .rail{
+  font-family:var(--mono); font-size:.8125rem;
+  color:var(--payne); padding-top:.15rem;
+}
+.entry h3{
+  font-family:var(--body); font-weight:700;
+  font-size:1.0625rem; line-height:1.38;
+  margin:0 0 .3rem;
+}
+.entry .meta{
+  font-size:.9375rem; color:var(--payne);
+  margin:0 0 .55rem; max-width:var(--measure);
+}
+.entry .venue{ font-style:italic; }
+.entry .me{ color:var(--ink); font-weight:700; }
+
+.links{
+  display:flex; flex-wrap:wrap; gap:.4rem .5rem;
+  font-family:var(--mono); font-size:.6875rem;
+  letter-spacing:.06em; text-transform:uppercase;
+}
+.links a{
+  border:1px solid var(--ground-3);
+  padding:.22rem .5rem; text-decoration:none; color:var(--payne);
+  transition:background .2s, border-color .2s, color .2s;
+}
+.links a:hover{ background:var(--ink); border-color:var(--ink); color:var(--bone); }
+
+.kind{
+  display:inline-block;
+  font-family:var(--mono); font-size:.625rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:.1rem .4rem; margin-bottom:.45rem;
+  border:1px solid currentColor;
+  color:var(--phthalo);
+}
+.kind.alt{ color:var(--quin); }
+.kind.award{
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.09em;
+  padding:.3rem .6rem;
+  margin-bottom:.6rem;
+  background:var(--quin);
+  border-color:var(--quin);
+  color:var(--bone);
+}
+
+/* ── projects ────────────────────────────────────────────── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:clamp(1.75rem,3.5vw,2.75rem);
+}
+.project h3{
+  font-family:var(--display);
+  font-variation-settings:"SOFT" 45,"WONK" 1,"opsz" 40;
+  font-weight:400; font-size:1.4rem;
+  margin:.9rem 0 .45rem; line-height:1.18;
+}
+.project p{ margin:0 0 .9rem; font-size:.9688rem; max-width:44ch; }
+.swatch{
+  aspect-ratio:16/10;
+  border:1px solid var(--ground-3);
+  background:var(--ground-2);
+  display:grid; place-items:center;
+  overflow:hidden;
+  position:relative;
+}
+.swatch::before{
+  content:""; position:absolute; inset:0;
+  background-image:
+    radial-gradient(circle at 18% 30%, var(--phthalo) 0 3px, transparent 3px),
+    radial-gradient(circle at 42% 62%, var(--quin) 0 3px, transparent 3px),
+    radial-gradient(circle at 67% 24%, var(--payne) 0 3px, transparent 3px),
+    radial-gradient(circle at 81% 71%, var(--phthalo) 0 3px, transparent 3px),
+    radial-gradient(circle at 33% 82%, var(--payne) 0 3px, transparent 3px);
+  opacity:.55;
+}
+.swatch .tag{ position:relative; }
+.swatch video,
+.swatch img{
+  position:relative;
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ── contact rail, under the portrait ────────────────────── */
+.contact-rail{
+  list-style:none;
+  margin:1.25rem 0 0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:.4rem;
+  font-family:var(--mono);
+  font-size:.8125rem;
+}
+.contact-rail a{
+  text-decoration:none;
+  border-bottom:1px solid var(--ground-3);
+  padding-bottom:.35rem;
+  display:block;
+  transition:border-color .2s;
+}
+.contact-rail a:hover{ border-color:var(--quin); }
+@media (max-width:780px){
+  .contact-rail{
+    flex-direction:row; flex-wrap:wrap; gap:.5rem 1.25rem;
+    justify-content:center;
+  }
+  .contact-rail a{ border-bottom:none; padding-bottom:0; }
+}
+
+/* ── research interests ──────────────────────────────────── */
+.interests{
+  margin-top:clamp(1.75rem,4vw,2.5rem);
+  padding-top:1.25rem;
+  border-top:var(--hair);
+}
+.interests h3{
+  font-family:var(--mono);
+  font-size:.6875rem;
+  font-weight:400;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--payne);
+  margin:0 0 .9rem;
+}
+.interests ul{
+  list-style:none; margin:0; padding:0;
+  display:flex; flex-wrap:wrap; gap:.5rem;
+}
+.interests li{
+  font-family:var(--mono);
+  font-size:.75rem;
+  letter-spacing:.04em;
+  padding:.35rem .7rem;
+  border:1px solid var(--ground-3);
+  color:var(--payne);
+  transition:border-color .25s, color .25s;
+}
+.interests li:hover{ border-color:var(--phthalo); color:var(--phthalo); }
+
+/* ── talk photo (optional per entry) ─────────────────────── */
+.entry .shot{
+  margin:.15rem 0 .7rem;
+  border:1px solid var(--ground-3);
+  overflow:hidden;
+  max-width:340px;
+}
+.entry .shot img{
+  display:block; width:100%; height:auto;
+  transition:transform .7s cubic-bezier(.2,.75,.25,1);
+}
+.entry:hover .shot img{ transform:scale(1.03); }
+
+/* ── misc gallery ────────────────────────────────────────── */
+
+
+/* ── cv ──────────────────────────────────────────────────── */
+.cv-block{
+  display:grid;
+  grid-template-columns:9rem minmax(0,1fr);
+  gap:0 clamp(1rem,3vw,2rem);
+  padding:1.45rem 0;
+  border-bottom:1px solid var(--ground-2);
+}
+@media (max-width:640px){
+  .cv-block{ grid-template-columns:1fr; gap:.5rem; padding:1.2rem 0; }
+  .cv-block .tag{ color:var(--quin); }
+  .cv-item{ margin-bottom:1.2rem; }
+}
+.cv-item{ margin-bottom:1.05rem; }
+.cv-item:last-child{ margin-bottom:0; }
+.cv-item .when{ font-family:var(--mono); font-size:.8125rem; color:var(--payne); display:block; }
+
+.download{
+  display:inline-block; margin-bottom:2rem;
+  padding:.72rem 1.35rem;
+  background:var(--ink); color:var(--bone);
+  font-family:var(--mono); font-size:.75rem;
+  letter-spacing:.12em; text-transform:uppercase; text-decoration:none;
+  transition:background .2s;
+}
+.download:hover{ background:var(--quin); color:var(--bone); }
+
+footer{
+  border-top:var(--hair);
+  padding:1.5rem 0 3rem;
+  display:flex; flex-wrap:wrap; gap:.5rem 2rem;
+  justify-content:space-between;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-delay:0ms !important;
+    transition-duration:.001ms !important;
+  }
+  .card[data-pos="back"]{ transform:translate(var(--o2),var(--oy2)) scale(.985); opacity:.42; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="shell">
+  <header class="masthead">
+    <h1 class="wordmark"><a href="#home">Parisa Ghanad Torshizi</a></h1>
+    <span class="tag">PhD Candidate · Khoury College of Computer Sciences · Northeastern University</span>
+
+    <nav class="nav" aria-label="Sections">
+      <a href="#home">Home</a>
+      <a href="#publications">Publications</a>
+      <a href="#talks">Talks</a>
+      <a href="#cv">CV</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+  <!-- ══ HOME ══════════════════════════════════════════════ -->
+  <section class="view" data-view="home">
+    <div class="intro">
+      <figure style="margin:0">
+        <!-- ▸ TWO EXPOSURES.
+             Card A = your professional photo (portrait.jpg).
+             Card B = your dance clip (dance.mp4 + dance-poster.jpg).
+             Click or tap the image to swap which is in front.
+             If you'd rather use a still for B, swap the <video>
+             for <img src="dance.jpg" alt="...">. -->
+        <div class="chrono" role="button" tabindex="0"
+             aria-label="Portrait of Parisa Ghanad Torshizi. Activate to swap between the photograph and the dance clip.">
+
+          <div class="card a" data-pos="front">
+            <img src="portrait3.jpg" alt="Portrait of Parisa Ghanad Torshizi">
+          </div>
+
+          <div class="card b" data-pos="back">
+            <img src="portrait1.jpg" alt="Portrait of Parisa Ghanad Torshizi">
+          </div>
+
+        </div>
+        <figcaption class="plate-caption tag">
+          <span class="shot-label">Parisa Ghanad Torshizi</span>
+          <span class="shot-dots" aria-hidden="true"><i class="on"></i><i></i></span>
+        </figcaption>
+
+        <ul class="contact-rail">
+          <li><a href="mailto:ghanadtorshizi.p@northeastern.edu">Email</a></li>
+          <li><a href="https://scholar.google.com/citations?user=BEgXiQsAAAAJ">Google Scholar</a></li>
+          <li><a href="https://orcid.org/0009-0006-6681-1932">ORCID</a></li>
+          <li><a href="https://dblp.org/pid/358/2496.html">DBLP</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </figure>
+
+     <div class="bio">
+        <p class="lede">I build virtual agents with rich human-like behaviors.</p>
+
+        <p>I'm a PhD candidate at the Khoury College of Computer Sciences at Northeastern University, where I work with Prof. Stacy Marsella in the CESAR Lab. My research focuses on generating multimodal behavior for embodied virtual agents, generating rich nonverbal behaviors (gaze, gestures, facial expresion, etc) that are appropriate to the role of the virtual agent and the context of the interaction between the agent and the human .</p>
+
+        <p>Recently I've been using large language models as semantic <em>selectors</em>, selecting appropriate behaviors that the agent should perform during an interaction with the user.</p>
+
+        <p>Outside of work, I like to dance,  embodying emotions by taking forms and motions.</p>
+
+        <p>I'm always glad to hear from people working on gestures, nonverbal behavior, or designing and deploying virtual agents in different applications.</p>
+
+        <div class="interests">
+          <h3>Research interests</h3>
+          <ul>
+            <li>Multimodal behavior generation</li>
+            <li>Embodied conversational agents</li>
+            <li>Co-speech gesture</li>
+            <li>Nonverbal communication</li>
+            <li>Large language models</li>
+            <li>Human-agent interaction</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PUBLICATIONS ══════════════════════════════════════ -->
+  <section class="view" data-view="publications">
+    <div class="view-head">
+      <h2>Publications</h2>
+      <span class="count">* equal contribution</span>
+    </div>
+
+    <div class="stream">
+
+    <article class="entry">
+        <div class="rail">2025</div>
+        <div>
+          <h3>A Comparative Study of Large Language Models for Gesture Selection in Virtual Agents</h3>
+          <p class="meta">
+            <span class="me">Parisa Ghanad Torshizi</span>, Hensel, L. B., Shapiro, A., &amp; Marsella, S. C.
+            — <span class="venue">Under Review in Journal of Autonomous Agents and Multiagent Systems (JAAMAS)</span>.
+          </p>
+          <div class="links"><a href="https://assets-eu.researchsquare.com/files/rs-8768097/v1_covered_f32452b8-80bb-4bfa-8c83-8be94d440f9a.pdf">Paper</a></div>
+        </div>
+      </article>
+
+
+      <article class="entry">
+        <div class="rail">2025</div>
+        <div>
+          <span class="kind award">Best Student Paper Award at AAMAS 2025</span>
+          <h3>Large Language Models for Virtual Human Gesture Selection</h3>
+          <p class="meta">
+            <span class="me">Parisa Ghanad Torshizi</span>, Hensel, L. B., Shapiro, A., &amp; Marsella, S. C.
+            — <span class="venue">Proceedings of the 24th International Conference on Autonomous Agents and Multiagent Systems (AAMAS)</span>, pp. 2051–2059.
+          </p>
+          <div class="links"><a href="https://www.ifaamas.org/Proceedings/aamas2025/pdfs/p2051.pdf">Paper</a></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="rail">2024</div>
+        <div>
+          <h3>Towards an Intelligent Augmented Reality Tutoring System for Precision Manufacturing</h3>
+          <p class="meta">
+            <span class="me">Parisa Ghanad Torshizi</span>, Tarashiyoun, H., Moghaddam, M., &amp; Marsella, S.
+            — <span class="venue">Proceedings of the 18th International Conference of the Learning Sciences (ICLS)</span>, pp. 1578–1581.
+          </p>
+          <div class="links"><a href="https://repository.isls.org/bitstream/1/10756/1/ICLS2024_1578-1581.pdf">Paper</a></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="rail">2023</div>
+        <div>
+          <h3>Investigating Large Language Models' Perception of Emotion Using Appraisal Theory</h3>
+          <p class="meta">
+            Yongsatianchot, N., <span class="me">Parisa Ghanad Torshizi</span>, &amp; Marsella, S.
+            — <span class="venue">11th International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)</span>, pp. 1–8.
+          </p>
+          <div class="links"><a href="https://ieeexplore.ieee.org/abstract/document/10388194">Paper</a></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="rail">2023</div>
+        <div>
+          <h3>Large Language Models in Textual Analysis for Gesture Selection</h3>
+          <p class="meta">
+            Hensel, L. B., Yongsatianchot, N., <span class="me">Parisa Torshizi</span>, Minucci, E., &amp; Marsella, S.
+            — <span class="venue">Proceedings of the 25th International Conference on Multimodal Interaction (ICMI)</span>, pp. 378–387.
+          </p>
+          <div class="links"><a href="https://doi.org/10.1145/3577190.3614158">Paper</a></div>
+        </div>
+      </article>
+      <!-- Copy an <article class="entry"> block to add a publication. -->
+    </div>
+  </section>
+
+
+ <!-- ══ TALKS ═════════════════════════════════════════════ -->
+
+  <section class="view" data-view="talks">
+    <div class="view-head">
+      <h2>Talks</h2>
+    </div>
+
+    <div class="stream">
+      <article class="entry">
+        <div class="rail">Mar 2026</div>
+        <div>
+          <span class="kind">Conference</span>
+          <span class="kind alt">Poster Presentation</span>
+          <h3>Deictic Gesture Selection with LLMs</h3>
+          <p class="meta"><span class="venue">Society of Affective Computing (SAS 2026)</span> — Pittsburgh, PA, USA</p>
+          <div class="links"><a href="sas-poster.pdf">Poster</a></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="rail">May 2025</div>
+        <div>
+          <span class="kind">Conference</span>
+          <span class="kind alt">Paper and Poster Presentation</span>
+          <h3>Large Language Models for Virtual Human Gesture Selection </h3>
+          <p class="meta"><span class="venue">Conference of Autonomous Agents and Multiagent Systems (AAMAS 2025)</span> — Detroit, ME, USA</p>
+          <div class="links"><a href="aamas-present.pdf">Talk Slides</a><a href="https://youtu.be/DS2SA8qLWzI?si=34_NB15aXhY0pQp6">Video</a></div>
+          <div class="links"><a href="aamas-poster.pdf">Poster</a></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="rail">June 2023</div>
+        <div>
+          <span class="kind">Conference</span>
+          <span class="kind alt">Paper Presentation</span>
+          <h3>Towards an Intelligent Augmented Reality Tutoring System for Precision Manufacturing</h3>
+          <p class="meta"><span class="venue">International Society of the Learning Sciences(ISLS 2024)</span> — Buffalo, NY, USA</p>
+          <div class="links"><a href="isls-present.pdf">Talk Slides</a></div>
+        </div>
+      </article>
+      <!-- ▸ Copy an <article class="entry"> block to add a talk. -->
+    </div>
+  </section>
+
+  
+  <!-- ══ MISC ══════════════════════════════════════════════ -->
+
+
+
+  <!-- ══ CV ════════════════════════════════════════════════ -->
+  <section class="view" data-view="cv">
+    <div class="view-head">
+      <h2>Curriculum Vitae</h2>
+      <span class="count">Updated August 2026</span>
+    </div>
+
+    <a class="download" href="Parisa-CV.pdf">Download full CV (PDF)</a>
+
+    <div class="cv-block">
+      <div class="tag">Education</div>
+      <div>
+        <div class="cv-item">
+          <span class="when">Sept 2022 — present</span>
+          <strong>PhD, Computer Science</strong> · Northeastern University, Boston, MA<br>
+          Advisor: Prof. Stacy Marsella
+        </div>
+        <div class="cv-item">
+          <span class="when">Sept 2022 — Apr 2025</span>
+          <strong>MSc, Computer Science</strong> · Northeastern University, Boston, MA<br>
+          Advisor: Prof. Stacy Marsella
+        </div>
+        <div class="cv-item">
+          <span class="when">Sept 2017 — Jan 2022</span>
+          <strong>BSc, Computer Science</strong> · Amirkabir University of Technology, Tehran, Iran<br>
+          Advisor: Prof. Mohammad Akbari
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="tag">Awards</div>
+      <div>
+        <div class="cv-item">
+          <span class="when">2025</span>
+          <strong>Best Student Paper Award</strong> · International Conference on Autonomous Agents and Multiagent Systems (AAMAS 2025)
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="tag">Experience</div>
+      <div>
+        <div class="cv-item">
+          <span class="when">Sept 2022 — present</span>
+          <strong>Doctoral Researcher</strong> · CESAR Lab, Northeastern University, Boston, MA<br>
+          Evaluating large language models for co-speech gesture generation, and building an end-to-end
+          LLM-driven gesture pipeline integrated into a virtual agent framework. Annotated a
+          speaker-specific hand-gesture dataset used for evaluation.
+        </div>
+
+        <div class="cv-item">
+          <span class="when">June 2026 — Sept 2026</span>
+          <strong>Research Engineer Intern</strong> · Elevare Health Inc., Boston, MA<br>
+          Integrated a virtual human framework into a maternal health clinical AI system and
+          developed an LLM-driven emotional expression module for the agent. Co-presented the
+          company pitch to Pear VC, covering the virtual human architecture, design choices,
+          and underlying research.
+        </div>
+
+        <div class="cv-item">
+          <span class="when">June 2025 — Sept 2025</span>
+          <strong>Research Intern</strong> · VHTL Lab, Institute for Creative Technologies, University of Southern California, Los Angeles, CA<br>
+          Supervisor: Dr. Sharon Mozgai. Developed a nonverbal behavior generation pipeline deployed in a
+          Unity virtual agent platform, and designed a human-subjects study of an AR agent for workplace training.
+        </div>
+        <div class="cv-item">
+          <span class="when">Sept 2022 — Jan 2024</span>
+          <strong>Research Assistant</strong> · CESAR Lab, Northeastern University, Boston, MA<br>
+          Designed and ran a Wizard-of-Oz evaluation with 40 participants of an AR intelligent tutoring
+          system for complex psychomotor tasks, with mixed-effects and qualitative analysis.
+        </div>
+        <div class="cv-item">
+          <span class="when">Sept 2020 — Sept 2021</span>
+          <strong>Undergraduate Researcher</strong> · Amirkabir University of Technology, Tehran, Iran<br>
+          Neural networks for textual sentiment analysis; research on therapeutic chatbots.
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="tag">Teaching</div>
+      <div>
+        <div class="cv-item">
+          <span class="when">Jan 2025 — May 2025</span>
+          <strong>Teaching Assistant, Human-AI Interaction</strong> · Northeastern University<br>
+          Rubric-based grading for ~50 students; weekly office hours supporting research projects.
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="tag">Skills</div>
+      <div>
+        <div class="cv-item">
+          <strong>Languages</strong><br>Python, R, C#
+        </div>
+        <div class="cv-item">
+          <strong>Tools &amp; frameworks</strong><br>OpenAI API, PyTorch, Hugging Face, Scikit-learn, Pandas, NumPy, Unity, Git
+        </div>
+        <div class="cv-item">
+          <strong>AI &amp; modeling</strong><br>NLP, LLMs — prompt engineering, fine-tuning, RAG
+        </div>
+        <div class="cv-item">
+          <strong>Research</strong><br>Study design, statistical analysis, Qualtrics, IRB write-up
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="tag">Reviewing</div>
+      <div>
+        <!-- Add a line per venue. -->
+        <div class="cv-item">
+          <span class="when">2026</span>
+          <strong>The European Heart Journal — Digital Health</strong> · Reviewer
+        </div>
+        <div class="cv-item">
+          <span class="when">2026</span>
+          <strong>ACM International Conference on Multimodal Interaction (ICMI)</strong> · Reviewer
+        </div>
+        <div class="cv-item">
+          <span class="when">2026</span>
+          <strong>International Conference on Affective Computing and Intelligent Interaction (ACII)</strong> · Reviewer
+        </div>
+        <div class="cv-item">
+          <span class="when">2025</span>
+          <strong>Springer Nature Journal of Virtual Reality</strong> · Reviewer
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  </main>
+
+  <footer>
+    <span class="tag">Parisa Ghanad Torshizi · Boston, MA</span>
+    <span class="tag">Last updated August 2026</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var views = document.querySelectorAll('.view');
+  var links = document.querySelectorAll('.nav a');
+  var names = Array.prototype.map.call(views, function(v){ return v.dataset.view; });
+
+  function show(name){
+    if(names.indexOf(name) === -1){ name = 'home'; }
+    views.forEach(function(v){ v.classList.toggle('is-active', v.dataset.view === name); });
+    links.forEach(function(a){
+      if(a.getAttribute('href') === '#' + name){ a.setAttribute('aria-current','page'); }
+      else{ a.removeAttribute('aria-current'); }
+    });
+    document.title = (name === 'home' ? '' : name.charAt(0).toUpperCase() + name.slice(1) + ' — ') + 'Parisa Ghanad Torshizi';
+  }
+
+  // portrait: click or keypress cycles which exposure is in front
+  var chrono = document.querySelector('.chrono');
+  var dots   = document.querySelectorAll('.shot-dots i');
+  var label  = document.querySelector('.shot-label');
+
+  if(chrono){
+    var cards = chrono.querySelectorAll('.card');
+    var shotNames = ['Parisa Ghanad Torshizi', 'Parisa Ghanad Torshizi'];
+    var front = 0;
+
+    var swap = function(){
+      front = (front + 1) % cards.length;
+      cards.forEach(function(c,k){
+        c.setAttribute('data-pos', k === front ? 'front' : 'back');
+        // restart the fade on whichever card just came forward
+        if(k === front){ c.style.animation = 'none'; void c.offsetWidth; c.style.animation = ''; }
+        // play video only while it's the one in front
+        var v = c.querySelector('video');
+        if(v){ if(k === front){ v.play().catch(function(){}); } else { v.pause(); } }
+      });
+      dots.forEach(function(d,k){ d.classList.toggle('on', k === front); });
+      if(label){ label.textContent = shotNames[front] || shotNames[0]; }
+    };
+
+    chrono.addEventListener('click', swap);
+    chrono.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); swap(); }
+    });
+  }
+
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.querySelectorAll('.swatch video').forEach(function(v){
+      v.removeAttribute('autoplay'); v.pause();
+    });
+  }
+
+  window.addEventListener('hashchange', function(){
+    show((location.hash || '#home').slice(1));
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+  show((location.hash || '#home').slice(1));
+})();
+</script>
+
+</body>
+</html>
